@@ -1,0 +1,17 @@
+# Use Go modules
+vendor
+
+# Also ignore Git directories. Delete the following two lines if you want to
+# upload them.
+.git
+.gitignore
+
+# Other directories and files
+bin
+scripts
+tools
+LICENSE
+Makefile
+README.md
+.env
+gcloud_cred.json

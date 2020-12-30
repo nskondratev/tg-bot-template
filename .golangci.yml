@@ -1,0 +1,53 @@
+run:
+  skip-dirs:
+    - scripts
+
+linters:
+  disable-all: true
+  enable:
+    - deadcode
+    - errcheck
+    - gosimple
+    - govet
+    - ineffassign
+    - staticcheck
+    - structcheck
+    - typecheck
+    - unused
+    - varcheck
+    - bodyclose
+    - dogsled
+    - errorlint
+    - exportloopref
+    - funlen
+    - gocognit
+    - goconst
+    - gocritic
+    - gocyclo
+    - gofmt
+    - goimports
+    - gosec
+    - interfacer
+    - lll
+    - nakedret
+    - nestif
+    - nlreturn
+    - noctx
+    - nolintlint
+    - rowserrcheck
+    - unconvert
+    - unparam
+    - whitespace
+    - wrapcheck
+    - wsl
+
+linters-settings:
+  funlen:
+    lines: 120
+    statements: 40
+  gocognit:
+    min-complexity: 10
+  nestif:
+    min-complexity: 4
+  gocyclo:
+    min-complexity: 10
