@@ -11,6 +11,7 @@ import (
 	"github.com/nskondratev/tg-bot-template/internal/boot"
 	"github.com/nskondratev/tg-bot-template/internal/env"
 	"github.com/nskondratev/tg-bot-template/internal/logger"
+	"github.com/nskondratev/tg-bot-template/internal/metrics"
 )
 
 var (
@@ -21,9 +22,16 @@ var (
 func init() {
 	var err error
 
+	ctx := context.Background()
+
 	log = logger.Must(env.String("LOG_LEVEL", "debug"), os.Stdout)
 
-	b, err = boot.InitBot(context.Background(), log)
+	stats, err := metrics.New(ctx)
+	if err != nil {
+		panic("failed to create metrics client: " + err.Error())
+	}
+
+	b, err = boot.InitBot(ctx, log, stats)
 	if err != nil {
 		panic("failed to init bot: " + err.Error())
 	}

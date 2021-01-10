@@ -13,6 +13,7 @@ import (
 	"github.com/nskondratev/tg-bot-template/internal/boot"
 	"github.com/nskondratev/tg-bot-template/internal/env"
 	"github.com/nskondratev/tg-bot-template/internal/logger"
+	"github.com/nskondratev/tg-bot-template/internal/metrics"
 )
 
 func main() {
@@ -22,7 +23,7 @@ func main() {
 
 	ctx, cancel := context.WithCancel(context.Background())
 
-	b, err := boot.InitBot(ctx, log)
+	b, err := boot.InitBot(ctx, log, &metrics.Client{})
 	if err != nil {
 		log.Fatal().Err(err).Msg("failed to init bot")
 	}

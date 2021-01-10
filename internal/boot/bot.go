@@ -10,9 +10,10 @@ import (
 	"github.com/nskondratev/tg-bot-template/internal/app/bot/handlers/command"
 	"github.com/nskondratev/tg-bot-template/internal/app/bot/handlers/message"
 	"github.com/nskondratev/tg-bot-template/internal/app/bot/middleware"
+	"github.com/nskondratev/tg-bot-template/internal/metrics"
 )
 
-func InitBot(_ context.Context, log zerolog.Logger) (*bot.Bot, error) {
+func InitBot(_ context.Context, log zerolog.Logger, stats *metrics.Client) (*bot.Bot, error) {
 	// Here you can create clients to external services, databases, etc.
 	// Set up bot handlers
 	updateHandler := bot.
@@ -27,6 +28,7 @@ func InitBot(_ context.Context, log zerolog.Logger) (*bot.Bot, error) {
 			middleware.NonNilUpdate,
 			middleware.InjectLogger(log),
 			middleware.Recover,
+			middleware.InjectAndFlushMetrics(stats),
 			middleware.SetUser,
 			middleware.LogUserInfo,
 		).

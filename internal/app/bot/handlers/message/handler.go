@@ -7,6 +7,7 @@ import (
 
 	"github.com/nskondratev/tg-bot-template/internal/app/bot"
 	l "github.com/nskondratev/tg-bot-template/internal/logger"
+	"github.com/nskondratev/tg-bot-template/internal/metrics"
 )
 
 type Handler struct{}
@@ -32,6 +33,13 @@ func (h *Handler) Handle(ctx context.Context, bot bot.Sender, update *tgbotapi.U
 		return
 	}
 
+	// Send metrics
+	statsActionResult := metrics.ActionResultOk
+
+	defer func() {
+		metrics.FromContext(ctx).RecordMessage(ctx, statsActionResult)
+	}()
+
 	log := l.WithPlace(ctx, "bot_handlers_message")
 
 	txt := update.Message.Text
@@ -48,5 +56,9 @@ func (h *Handler) Handle(ctx context.Context, bot bot.Sender, update *tgbotapi.U
 		log.Error().
 			Err(err).
 			Msg("failed to send message")
+
+		statsActionResult = metrics.ActionResultFailedToSendMessage
+
+		return
 	}
 }
